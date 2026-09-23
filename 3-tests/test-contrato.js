@@ -72,10 +72,15 @@ async function suite() {
 
   // 4) Busqueda de texto
   console.log('\n[4] Busqueda de texto (?q=)');
-  const { r: r4 } = await medir(BASE + '/productos?q=laptop');
-  check('Busqueda ?q=laptop -> 200', r4.status === 200);
+  // Los nombres de producto los genera Faker (varian en cada dataset), asi que
+  // NO buscamos un texto fijo: tomamos una palabra real del primer producto y
+  // buscamos por ella. Asi el test funciona con cualquier dataset generado.
+  const listaProd = await (await fetch(BASE + '/productos')).json();
+  const termino = listaProd[0].nombre.split(' ')[0];  // primera palabra del nombre real
+  const { r: r4 } = await medir(BASE + '/productos?q=' + encodeURIComponent(termino));
+  check('Busqueda ?q=' + termino + ' -> 200', r4.status === 200);
   const resultados = await r4.json();
-  check('Encuentra al menos 1 resultado para "laptop"', resultados.length >= 1, 'encontro=' + resultados.length);
+  check('Encuentra al menos 1 resultado para "' + termino + '"', resultados.length >= 1, 'encontro=' + resultados.length);
 
   // 5) Ordenamiento
   console.log('\n[5] Ordenamiento (_sort / _order)');

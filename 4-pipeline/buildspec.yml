@@ -30,8 +30,11 @@ phases:
       - 'npm install'
       - 'echo "Dependencias instaladas OK"'
 
-  # FASE 2: PRE_BUILD - genera datos, restaura seed, levanta API
-  # Los datos NO estan versionados: se generan aqui en cada corrida.
+  # FASE 2: PRE_BUILD - genera los datos (NO estan versionados)
+  #   1) Faker genera 2-servicio/db.seed.json
+  #   2) restaurar-seed copia el seed a 2-servicio/db.json
+  # La API la levanta el propio runner de tests en la fase BUILD,
+  # asi no dependemos de un proceso en background entre fases.
   pre_build:
     commands:
       - 'echo "=== FASE PRE_BUILD ==="'
@@ -39,14 +42,10 @@ phases:
       - 'node 1-generar-datos/generar-datos.js'
       - 'echo "Preparando la copia de trabajo (seed -> db.json)..."'
       - 'node 4-pipeline/restaurar-seed.js'
-      - 'echo "Levantando API en background..."'
-      - 'npx json-server 2-servicio/db.json --port $API_PORT &'
-      - 'sleep 5'
-      - 'echo "Comprobando que la API responde..."'
-      - 'curl -sf http://localhost:$API_PORT/productos > /dev/null && echo "API OK" || (echo "API no responde" && exit 1)'
       - 'echo "Pre-build OK"'
 
-  # FASE 3: BUILD - corre los tests (exit 1 = BUILD FAILED)
+  # FASE 3: BUILD - el runner levanta la API, corre los tests y la apaga.
+  # Si algun test falla, npm test sale con 1 y CodeBuild marca BUILD FAILED.
   build:
     commands:
       - 'echo "=== FASE BUILD: corriendo tests ==="'
