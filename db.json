@@ -121,6 +121,14 @@
       "cantidad": 3,
       "estado": "entregado",
       "fecha": "2024-09-18"
+    },
+    {
+    "id": 99,
+      "productoId": 2,
+      "cliente": "2.gomez@empresa.com",
+      "cantidad": 3,
+      "estado": "entregado",
+      "fecha": "2024-09-20"
     }
   ]
 }
