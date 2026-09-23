@@ -55,9 +55,14 @@ phases:
   # FASE 4: POST_BUILD - muestra el reporte (siempre corre)
   post_build:
     commands:
-      - 'echo "=== FASE POST_BUILD ==="'
-      - 'cat 4-pipeline/test-report.json || echo "No se genero reporte"'
-      - 'echo "Pipeline finalizado"'
+      - 'echo "=========================================="'
+      - 'echo "===== FASE POST_BUILD: REPORTE DE TESTS ====="'
+      - 'echo "=========================================="'
+      - 'ls -la 4-pipeline/'
+      - 'echo "----- Contenido de test-report.json -----"'
+      - 'if [ -f 4-pipeline/test-report.json ]; then cat 4-pipeline/test-report.json; else echo "AVISO: no se genero el reporte"; fi'
+      - 'echo ""'
+      - 'echo "----- Fin del reporte -----"'
 
 # ARTEFACTOS: se suben a S3 en AWS; en local quedan en 4-pipeline/
 artifacts:
