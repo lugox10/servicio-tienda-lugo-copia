@@ -9,3 +9,6 @@ node_modules/
 # Reportes generados por el pipeline y el inspector
 4-pipeline/test-report.json
 5-inspector/resumen-analisis.json
+__pycache__/
+*.pyc
+venv/

@@ -1,0 +1,84 @@
+{
+  "consumer": {
+    "name": "FrontendTienda"
+  },
+  "interactions": [
+    {
+      "description": "Una petición GET para obtener productos",
+      "providerStates": [
+        {
+          "name": "Existen productos"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/productos"
+      },
+      "response": {
+        "body": [
+          {
+            "id": 1,
+            "nombre": "Elegant Steel Towels",
+            "precio": 982.85
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$[*].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$[*].nombre": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[*].precio": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "decimal"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "17.1.4"
+    },
+    "pactRust": {
+      "ffi": "0.5.8",
+      "models": "1.3.16"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "ApiTienda"
+  }
+}

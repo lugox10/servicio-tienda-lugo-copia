@@ -79,3 +79,8 @@ Guarda el archivo (`Ctrl + K, S`) y ejecuta en tu terminal para que quede en tu 
 git add README-RETO-M5.md
 git commit -m "docs: README exclusivo para la entrega del Reto M5"
 git push origin main
+
+### Fase 4, 5 y 6: Nube, Docker, Pact y Métricas
+- **Docker:** `docker build -t servicio-tienda-img .` y `docker run -d -p 3001:3001 --name tienda-test servicio-tienda-img`
+- **Pact (Contract Testing):** `npm run test:pact`
+- **Métricas DORA y Pirámide:** Documentadas en el Documento de Soporte adjunto en la entrega.
